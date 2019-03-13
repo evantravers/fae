@@ -4,15 +4,15 @@
   connection: local
 
   roles:
-    - faen.packages
-    - faen.less-pcre
-    - faen.bash
-    - faen.fzf
-    - faen.tmux
-    - faen.git
-    - faen.gpg
-    - faen.nvim
-    - asdf
+    - {role: faen.packages, when: (ansible_os_family|lower == 'darwin')}
+    - {role: faen.less-pcre, when: (ansible_os_family|lower == 'darwin')}
+    - {role: faen.bash }
+    - {role: faen.fzf, when: (ansible_os_family|lower == 'darwin')}
+    - {role: faen.tmux }
+    - {role: faen.git }
+    - {role: faen.gpg }
+    - {role: faen.nvim }
+    - {role: asdf }
 
   tasks:
     - name: install ~/.bashrc.d/todo
@@ -58,7 +58,7 @@
       user:
         - name = Tom Miller
         - email = jackerran@gmail.com
-        - "signingkey = {{ gpg_default_key }}"
+        #- "signingkey = {{ gpg_default_key }}"
       color:
         - ui = true
       "color \"status\"":
@@ -69,7 +69,7 @@
         - excludesfile = "~/.cvsignore"
       commit:
         - verbose = true
-        - gpgsign = true
+        #- gpgsign = true
       credential:
         - helper = osxkeychain
       rerere:
@@ -107,7 +107,7 @@
         - my-commits = log --author='Tom Miller' --author-date-order --date=format:'%a %b %d %r' --format='%h | %ad | %s'
 
 
-    asdf_version: v0.4.0
+    asdf_version: v0.6.1
 
     tmux_g_win_opt:
       window-status-current-fg: white
@@ -139,15 +139,11 @@
         export: true
 
       - name: FZF_DEFAULT_COMMAND
-        value: "rg --no-ignore --hidden --files --follow -g '!{.git,node_modules,vendor,elm-stuff,deps,_build,tmp,target}'"
+        value: rg --hidden --files --follow
         export: true
 
-      - name: FZF_CTRL_T_COMMAND
-        value: "rg --no-ignore --hidden --files --follow -g '!{.git,node_modules,vendor,elm-stuff,deps,_build,tmp,target}'"
-        export: true
-
-      - name: FZF_ALT_C_COMMAND
-        value: "bfs \\( -path '*/vendor' -or -path '*/node_modules' -or -path '*/Library' \\) -prune -or -type d -nohidden"
+      - name: FZF_ALT_C_COMMAND 
+        value: fd --type d --exclude 'Library'
         export: true
 
       - name: LESS
@@ -196,6 +192,10 @@
 
       - name: KERL_BUILD_DOCS
         value: yes
+        export: true
+
+      - name: KERL_CONFIGURE_OPTIONS
+        value: --without-wx --disable-debug --without-javac
         export: true
 
     bash_path:
