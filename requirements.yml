@@ -26,7 +26,7 @@
 - name: faen.nvim
   src: https://gitlab.com/faen/nvim.git
   scm: git
-  version: support/debian
+  version: master
 
 - name: faen.packages
   src: https://gitlab.com/faen/packages.git
