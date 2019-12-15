@@ -11,7 +11,7 @@
 - name: faen.git
   src: https://gitlab.com/faen/git.git
   scm: git
-  version: support/debian
+  version: master
 
 - name: faen.gpg
   src: https://gitlab.com/faen/gpg.git
