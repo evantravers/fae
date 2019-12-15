@@ -142,7 +142,7 @@
         value: rg --hidden --files --follow
         export: true
 
-      - name: FZF_ALT_C_COMMAND 
+      - name: FZF_ALT_C_COMMAND
         value: fd --type d --exclude 'Library'
         export: true
 
